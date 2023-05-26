@@ -1,5 +1,5 @@
 import QtQuick
-//import Monty
+import Monty
 
 Item {
     Rectangle {
@@ -31,13 +31,13 @@ Item {
             text: 'Hot'
         }
 
-//        MouseArea {
-//            anchors.fill: parent
-//            onClicked: {
-//                systemController.setDrinkTemperature( SystemController.HOT )
-//                stackView.push( "DrinkTypePage.qml" )
-//            }
-//        }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                systemController.setDrinkTemperature( SystemController.HOT )
+                stackView.push( "DrinkTypePage.qml" )
+            }
+        }
     }
 
     Rectangle {
@@ -69,13 +69,13 @@ Item {
             text: "Cold"
         }
 
-//        MouseArea {
-//            anchors.fill: parent
-//            onClicked: {
-//                systemController.setDrinkTemperature( SystemController.COLD )
-//                stackView.push( "DrinkTypePage.qml" )
-//            }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                systemController.setDrinkTemperature( SystemController.COLD )
+                stackView.push( "DrinkTypePage.qml" )
+            }
 
-//        }
+        }
     }
 }

@@ -39,6 +39,10 @@ target_link_libraries(appDrinkDispenser PUBLIC
 set(qml_resource_files
     "Main.qml"
     "HotColdSelectionPage.qml"
+    "DrinkTypePage.qml"
+    "DrinkSizeSelectionPage.qml"
+    "DispensingScreen.qml"
+    "FinishScreen.qml"
     "images/coffee-beans.png"
     "images/coffee-cup.png"
     "images/cold.png"
