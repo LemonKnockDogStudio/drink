@@ -11,8 +11,9 @@ qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appDrinkDispenser
     main.cpp
+    systemcontroller.h
+    systemcontroller.cpp
 )
-
 qt_add_qml_module(appDrinkDispenser
     URI DrinkDispenser
     VERSION 1.0
@@ -37,7 +38,23 @@ target_link_libraries(appDrinkDispenser PUBLIC
 # Resources:
 set(qml_resource_files
     "Main.qml"
+    "HotColdSelectionPage.qml"
+    "images/coffee-beans.png"
+    "images/coffee-cup.png"
+    "images/cold.png"
+    "images/drop.png"
     "images/hot.png"
+    "images/previousCold.png"
+    "images/previousHot.png"
+    "images/resetCold.png"
+    "images/resetHot.png"
+    "images/snowflake.png"
+    "images/soda.png"
+    "images/softdrinks.png"
+    "images/tea.png"
+    "images/tickCold.png"
+    "images/tickHot.png"
+    "images/wifi.png"
 )
 
 qt6_add_resources(appDrinkDispenser "qml"
