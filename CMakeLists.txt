@@ -17,7 +17,9 @@ qt_add_executable(appDrinkDispenser
 qt_add_qml_module(appDrinkDispenser
     URI DrinkDispenser
     VERSION 1.0
-    QML_FILES Main.qml
+    QML_FILES
+    Main.qml
+    StatusBar.qml
 )
 
 set_target_properties(appDrinkDispenser PROPERTIES
@@ -43,6 +45,7 @@ set(qml_resource_files
     "DrinkSizeSelectionPage.qml"
     "DispensingScreen.qml"
     "FinishScreen.qml"
+    "StatusBar.qml"
     "images/coffee-beans.png"
     "images/coffee-cup.png"
     "images/cold.png"

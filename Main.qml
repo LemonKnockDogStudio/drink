@@ -18,4 +18,12 @@ Window {
         anchors.fill: parent
         initialItem: 'qrc:/HotColdSelectionPage.qml'
     }
+
+    StatusBar {
+        id: statusBar
+        anchors {
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+        }
+    }
 }
