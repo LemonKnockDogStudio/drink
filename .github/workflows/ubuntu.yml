@@ -1,0 +1,92 @@
+name: Linux Release
+
+on: 
+  push:
+    branches:
+      - 'master'
+    tags:
+      - 'v*'
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  SOURCE_DIR:   ${{ github.workspace }}
+  QT_VERSION:   6.5.1
+  ARTIFACT:     qt-test-linux-build.AppImage
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [ubuntu-18.04,ubuntu-20.04]
+        # qt_ver: [5.9.9,5.12.10,5.15.2,6.2.2]
+        os: [ubuntu-20.04]
+        qt_ver: [6.5.1]
+        qt_arch: [gcc_64]
+        # exclude: 
+          # Qt6.2.2 need GLIBC_2.28, ubuntu 18.04 have not.
+          # - os: ubuntu-18.04
+          #   qt_ver: 6.2.2
+          #   qt_arch: gcc_64
+    steps:
+      # - name: Install Qt
+      #   uses: jurplel/install-qt-action@v2
+      #   with:
+      #     version: ${{ matrix.qt_ver }}
+      #     cached: 'false'
+
+      - name: ubuntu install GL library
+        run: sudo apt-get install -y libxcb-cursor0 # libglew-dev libglfw3-dev
+
+      # - uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: 1
+
+      # - name: build ubuntu
+      #   run: |
+      #     cmake
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version:      ${{ env.QT_VERSION }}
+          host:         linux
+          target:       desktop
+          arch:         gcc_64
+          dir:          ${{ runner.temp }}
+          modules:      qtcharts qt3d
+          setup-python: false
+
+      - name: Create build directory
+        run:  mkdir ${{ env.SOURCE_DIR }}/build
+
+      - name: Build
+        # working-directory: ${{ env.SOURCE_DIR }}/build
+        run:  |
+              cmake ${{ env.SOURCE_DIR }}
+              cmake --build ${{ env.SOURCE_DIR }}
+
+      - name: AppImage
+        working-directory: ${{ env.SOURCE_DIR }}/build
+        run: |
+          wget -O deploy.AppImage https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+          chmod +x deploy.AppImage
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${{ github.workspace }}/Qt/${{ env.QT_VERSION }}/gcc_64/lib/
+          cp ${{ env.SOURCE_DIR }}/linux/* .
+          cp ${{ env.SOURCE_DIR }}/linux/* ${{ env.SOURCE_DIR }}
+          ./deploy.AppImage planets-qml.desktop -appimage -no-translations -qmldir=${{ env.SOURCE_DIR }}
+          mv Drink_Dispenser*.AppImage ${{ env.ARTIFACT }}          
+      
+      - name: Linux artefact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ${{ env.ARTIFACT }}
+          path: ${{ env.SOURCE_DIR }}/build/${{ env.ARTIFACT }}

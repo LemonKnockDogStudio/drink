@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Drink Dispenser
+Comment=Qt planets ci-cd
+Exec=appDrinkDispenser
+Icon=planets-qml-icon
+Categories=Office;
